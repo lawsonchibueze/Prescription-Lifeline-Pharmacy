@@ -11,6 +11,7 @@ const prisma = new PrismaClient({ adapter: createPgAdapter() });
 const trustedOrigins = (process.env.CORS_ORIGIN ?? 'http://localhost:3000')
   .split(',')
   .map((origin) => origin.trim());
+const isProduction = process.env.NODE_ENV === 'production';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -23,6 +24,18 @@ export const auth = betterAuth({
   // middleware-mounted routes.
   basePath: '/api/auth',
   trustedOrigins,
+  advanced: {
+    // The storefront and API are hosted on different HTTPS domains. These
+    // attributes allow credentialed browser requests while keeping the
+    // session token inaccessible to JavaScript and partitioned by top-level
+    // site in browsers that support CHIPS.
+    defaultCookieAttributes: {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      partitioned: isProduction,
+    },
+  },
   user: {
     additionalFields: {
       // Admin API access (Phase 3). input: false means it can only ever be
