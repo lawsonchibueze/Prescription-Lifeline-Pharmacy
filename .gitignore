@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Env files
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.local.example
+
+# Next.js
+.next/
+out/
+apps/web/.next/
+apps/web/out/
+
+# NestJS / TS build output
+dist/
+apps/api/dist/
+*.tsbuildinfo
+
+# Prisma
+apps/api/prisma/migrations/dev.db
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Testing / coverage
+coverage/
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Docker volumes are managed by Docker itself, nothing local to ignore here

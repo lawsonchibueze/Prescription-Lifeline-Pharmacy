@@ -1,0 +1,14 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+# Prisma needs its postinstall script to run so it can download the query
+# engine binaries; pnpm blocks all build scripts by default unless allowlisted.
+onlyBuiltDependencies:
+  - "@prisma/client"
+  - "@prisma/engines"
+  - prisma

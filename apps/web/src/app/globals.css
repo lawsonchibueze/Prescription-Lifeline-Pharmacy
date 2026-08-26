@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: toggled by JS (see theme-script.tsx /
+   theme-toggle.tsx), not just system preference, so `dark:` utilities
+   respond to the `.dark` class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Raw, theme-aware values. Named distinctly from the --color-* tokens
+   below that reference them — @theme inline keeps these as live var()
+   lookups rather than inlining them, so self-referencing names here
+   would resolve to nothing (same pitfall as the font variables). */
+:root {
+  --paper: #fdfdfb;
+  --surface: #ffffff;
+  --surface-hover: #f4f3ee;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a48;
+  --ink-faint: #78776f;
+  --line: #e4e2da;
+
+  --brand-green-light-raw: #e6f5ec;
+  --brand-yellow-light-raw: #fffce0;
+}
+
+.dark {
+  --paper: #14171a;
+  --surface: #1c2023;
+  --surface-hover: #262b2f;
+  --ink: #f3f2ee;
+  --ink-soft: #b7b6ae;
+  --ink-faint: #8c8b83;
+  --line: #33383c;
+
+  --brand-green-light-raw: #12291d;
+  --brand-yellow-light-raw: #2b2708;
+}
+
+@theme inline {
+  --font-sans: var(--font-public-sans);
+  --font-display: var(--font-manrope);
+
+  /* Prescription Lifeline Pharmacy brand palette, sampled from the logo.
+     Kept constant across light/dark — only the neutrals above flip. */
+  --color-brand-green: #00a859;
+  --color-brand-green-dark: #017a41;
+  --color-brand-yellow: #fff115;
+  --color-brand-yellow-dark: #d6c400;
+  --color-brand-black: #1a1a1a;
+  --color-brand-footer: #16241d;
+
+  /* Theme-aware neutrals — values come from :root / .dark above. */
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-brand-green-light: var(--brand-green-light-raw);
+  --color-brand-yellow-light: var(--brand-yellow-light-raw);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Continuous-scroll "marquee" band (services strip on the homepage).
+   The track is rendered as two identical halves back to back, so
+   translating exactly -50% loops seamlessly regardless of content width. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* Higher specificity than the base rule above (not a Tailwind hover:
+   utility) — this lives outside any @layer, same as .animate-marquee
+   itself, so it isn't at the mercy of Tailwind's layer/cascade order. */
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
