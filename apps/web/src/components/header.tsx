@@ -92,6 +92,14 @@ export function Header() {
               </span>
             )}
           </Link>
+          {user?.role === 'admin' && (
+            <Link
+              href="/admin"
+              className="whitespace-nowrap rounded-lg border border-line px-4 py-2.5 text-sm font-bold text-ink-soft hover:bg-surface-hover"
+            >
+              Admin
+            </Link>
+          )}
           {user ? (
             <Link
               href="/account"

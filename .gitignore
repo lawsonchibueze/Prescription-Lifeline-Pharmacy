@@ -23,6 +23,9 @@ apps/api/dist/
 # Prisma
 apps/api/prisma/migrations/dev.db
 
+# Locally uploaded product images (dev-only disk storage, not source)
+apps/api/uploads/
+
 # Logs
 npm-debug.log*
 pnpm-debug.log*
